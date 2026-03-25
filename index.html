@@ -3,102 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cotizador Espeon Shiny</title>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@700;900&display=swap" rel="stylesheet">
+    <title>Cotizador Espeon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700;900&display=swap" rel="stylesheet">
     <style>
         body {
-            /* FONDO OSCURO PARA QUE SE VEAN LAS ESTRELLAS */
-            background-color: #0b0e14; 
-            margin: 0;
+            background-color: #222; /* Fondo oscuro para que resalte la carta */
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            font-family: 'Exo 2', sans-serif;
-            overflow: hidden;
-            position: relative;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
         }
 
-        /* CAPA DE ESTRELLAS ANIMADAS */
-        .stars-container {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
-            z-index: -1;
-        }
-
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            opacity: 0.5;
-            animation: twinkle var(--duration) infinite ease-in-out;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { transform: scale(1); opacity: 0.3; }
-            50% { transform: scale(1.5); opacity: 1; }
-        }
-
-        /* CONTENEDOR DE LA CARTA */
         .card-container {
             position: relative;
-            width: 380px;
+            width: 380px; /* Tamaño más fiel a una carta real */
             aspect-ratio: 686 / 956;
-            background-image: url('card.png'); /* ASEGURATE QUE TU IMAGEN SE LLAME card.png */
+            background-image: url('card.png'); /* EL NOMBRE NUEVO */
             background-size: cover;
             background-position: center;
             border-radius: 18px;
-            box-shadow: 0 0 30px rgba(192, 160, 255, 0.3); /* Brillo lila suave */
-            z-index: 10;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            overflow: hidden;
         }
 
-        /* EL COTIZADOR (ZONA ROSADA) */
         .cotizador-overlay {
             position: absolute;
-            top: 55%; 
+            top: 55%; /* Ubicado sobre la zona rosada de tu imagen */
             left: 50%;
             transform: translateX(-50%);
             width: 80%;
-            text-align: left;
+            display: flex;
+            flex-direction: column;
         }
 
         .label {
             font-size: 16px;
             font-weight: 900;
-            color: #333;
-            margin-bottom: 8px;
+            color: #333; /* Texto oscuro para que se lea sobre el rosa */
+            margin-bottom: 5px;
             text-transform: uppercase;
-            text-shadow: 1px 1px 0px rgba(255,255,255,0.5);
         }
 
         .input-bubble {
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 12px;
-            padding: 12px 15px;
+            padding: 10px 15px;
+            width: 100%;
+            box-sizing: border-box;
             display: flex;
             align-items: center;
-            margin-bottom: 25px;
-            box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            border: 2px solid rgba(0,0,0,0.1);
         }
 
-        .input-bubble span { font-size: 22px; color: #888; margin-right: 10px; }
+        .input-bubble span {
+            font-size: 22px;
+            color: #555;
+            margin-right: 8px;
+        }
+
         .input-bubble input {
             border: none;
+            background: transparent;
             width: 100%;
             font-size: 22px;
+            font-family: 'Roboto', sans-serif;
             font-weight: 700;
             outline: none;
-            font-family: 'Exo 2', sans-serif;
+            color: #000;
         }
 
         .result-display {
-            font-size: 38px;
+            font-size: 34px;
             font-weight: 900;
-            color: #1a1a1a;
-            letter-spacing: -1px;
+            color: #111;
+            text-shadow: 1px 1px 0px rgba(255,255,255,0.4);
         }
 
+        /* Ocultar flechitas del input */
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
             -webkit-appearance: none; margin: 0;
         }
@@ -106,10 +90,9 @@
 </head>
 <body>
 
-    <div class="stars-container" id="starField"></div>
-
     <div class="card-container">
         <div class="cotizador-overlay">
+            
             <div class="label">Ingrese monto USD</div>
             <div class="input-bubble">
                 <span>$</span>
@@ -118,27 +101,11 @@
 
             <div class="label">Resultado en ARS</div>
             <div class="result-display" id="arsResult">$ 0,00</div>
+
         </div>
     </div>
 
     <script>
-        // Crear estrellas aleatorias
-        const starField = document.getElementById('starField');
-        const starCount = 100;
-
-        for (let i = 0; i < starCount; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            const size = Math.random() * 3 + 'px';
-            star.style.width = size;
-            star.style.height = size;
-            star.style.top = Math.random() * 100 + '%';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
-            starField.appendChild(star);
-        }
-
-        // Lógica del cotizador
         const usdInput = document.getElementById('usdInput');
         const arsResult = document.getElementById('arsResult');
 
@@ -148,6 +115,7 @@
                 arsResult.innerText = "$ 0,00";
                 return;
             }
+            // Tu fórmula: (Monto + 2) * 1400
             const calculo = (usd + 2) * 1400;
             arsResult.innerText = new Intl.NumberFormat('es-AR', {
                 style: 'currency',
