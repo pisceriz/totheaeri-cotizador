@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700;900&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #1a1a1a;
+            background-color: #222; /* Fondo oscuro para que resalte la carta */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -18,20 +18,19 @@
 
         .card-container {
             position: relative;
-            width: 90vw;
-            max-width: 450px;
+            width: 380px; /* Tamaño más fiel a una carta real */
             aspect-ratio: 686 / 956;
-            /* NOMBRE CORREGIDO AQUÍ ABAJO */
-            background-image: url('espeon_card.jpg.png'); 
+            background-image: url('card.png'); /* EL NOMBRE NUEVO */
             background-size: cover;
             background-position: center;
-            border-radius: 25px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            border-radius: 18px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            overflow: hidden;
         }
 
         .cotizador-overlay {
             position: absolute;
-            top: 55%; /* Ajustado para que caiga justo en la zona rosada */
+            top: 55%; /* Ubicado sobre la zona rosada de tu imagen */
             left: 50%;
             transform: translateX(-50%);
             width: 80%;
@@ -40,51 +39,52 @@
         }
 
         .label {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 900;
-            color: #2c2c2c;
-            margin-bottom: 8px;
+            color: #333; /* Texto oscuro para que se lea sobre el rosa */
+            margin-bottom: 5px;
             text-transform: uppercase;
         }
 
         .input-bubble {
-            background: white;
-            border-radius: 15px;
-            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 10px 15px;
             width: 100%;
             box-sizing: border-box;
-            box-shadow: 4px 4px 10px rgba(0,0,0,0.1);
             display: flex;
             align-items: center;
-            margin-bottom: 25px;
-            border: 2px solid #ddd;
+            margin-bottom: 20px;
+            border: 2px solid rgba(0,0,0,0.1);
         }
 
         .input-bubble span {
-            font-size: 24px;
-            color: #777;
-            margin-right: 10px;
+            font-size: 22px;
+            color: #555;
+            margin-right: 8px;
         }
 
         .input-bubble input {
             border: none;
+            background: transparent;
             width: 100%;
-            font-size: 24px;
+            font-size: 22px;
             font-family: 'Roboto', sans-serif;
             font-weight: 700;
             outline: none;
+            color: #000;
         }
 
         .result-display {
-            font-size: 38px;
+            font-size: 34px;
             font-weight: 900;
-            color: #1a1a1a;
+            color: #111;
+            text-shadow: 1px 1px 0px rgba(255,255,255,0.4);
         }
 
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
+        /* Ocultar flechitas del input */
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+            -webkit-appearance: none; margin: 0;
         }
     </style>
 </head>
@@ -111,15 +111,12 @@
 
         usdInput.addEventListener('input', () => {
             const usd = parseFloat(usdInput.value);
-            
             if (isNaN(usd) || usd <= 0) {
                 arsResult.innerText = "$ 0,00";
                 return;
             }
-
-            // Lógica: (Monto + 2) * 1400
+            // Tu fórmula: (Monto + 2) * 1400
             const calculo = (usd + 2) * 1400;
-
             arsResult.innerText = new Intl.NumberFormat('es-AR', {
                 style: 'currency',
                 currency: 'ARS',
@@ -127,6 +124,5 @@
             }).format(calculo);
         });
     </script>
-
 </body>
 </html>
