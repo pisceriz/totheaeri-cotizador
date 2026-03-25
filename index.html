@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>totheaeri cotizador</title>
+
+<style>
+body {
+  background: #1a1a1a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: Arial;
+}
+
+/* 🎴 CARD */
+.card {
+  width: 300px;
+  background: #d8a3d8;
+  border: 8px solid #c084c0;
+  border-radius: 15px;
+  padding: 10px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 25px black;
+  color: black;
+}
+
+/* 🌈 EFECTO HOLOGRÁFICO */
+.card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.3),
+    rgba(255,0,255,0.2),
+    rgba(0,255,255,0.2),
+    transparent
+  );
+  transform: rotate(25deg);
+  animation: holo 4s infinite linear;
+}
+
+@keyframes holo {
+  0% { transform: translateX(-100%) rotate(25deg); }
+  100% { transform: translateX(100%) rotate(25deg); }
+}
+
+/* ✨ BRILLO AL PASAR EL MOUSE */
+.card:hover {
+  transform: scale(1.03);
+  transition: 0.3s;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: 18px;
+  position: relative;
+  z-index: 2;
+}
+
+.hp {
+  color: #5a005a;
+}
+
+/* IMAGEN */
+.image {
+  margin: 10px 0;
+  background: white;
+  border-radius: 10px;
+  padding: 5px;
+  position: relative;
+  z-index: 2;
+}
+
+.image img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+/* INPUT */
+.input {
+  margin-top: 10px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+input {
+  padding: 8px;
+  width: 80%;
+  border-radius: 8px;
+  border: none;
+  text-align: center;
+}
+
+/* TEXTO */
+.attack {
+  margin-top: 15px;
+  font-size: 14px;
+  position: relative;
+  z-index: 2;
+}
+
+.result {
+  margin-top: 10px;
+  font-weight: bold;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.footer {
+  margin-top: 15px;
+  font-size: 10px;
+  text-align: center;
+  opacity: 0.7;
+  position: relative;
+  z-index: 2;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+  <div class="header">
+    <span>Gujunzz</span>
+    <span class="hp">✨ 110</span>
+  </div>
+
+  <div class="image">
+    <!-- 🔥 CAMBIÁ TU IMAGEN -->
+    <img src="https://i.imgur.com/your-image.png">
+  </div>
+
+  <div class="input">
+    <input type="number" id="usd" placeholder="USD" oninput="calcular()">
+  </div>
+
+  <div class="attack">
+    💰 <strong>Conversión</strong><br>
+    +$2 USD fees → ARS
+  </div>
+
+  <div class="result" id="resultado"></div>
+
+  <div class="footer">
+    Carta holográfica • cotizador
+  </div>
+
+</div>
+
+<script>
+const FEES = 2;
+const TASA = 1400;
+
+function calcular() {
+  let usd = parseFloat(document.getElementById("usd").value) || 0;
+
+  let totalUSD = usd + FEES;
+  let totalARS = totalUSD * TASA;
+
+  document.getElementById("resultado").innerHTML =
+    "USD: $" + totalUSD.toFixed(2) + "<br>" +
+    "ARS: $" + totalARS.toLocaleString();
+}
+</script>
+
+</body>
+</html>
