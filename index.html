@@ -1,125 +1,160 @@
-<style>
-    /* Estilos generales de la página */
-    body {
-        /* COLOR DE FONDO PLATEADO SATINADO */
-        background-color: #c0c0c0; /* Un gris plateado metálico */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        margin: 0;
-        font-family: 'Exo 2', sans-serif;
-        
-        /* POSICIÓN PARA EL EFECTO DE ESTRELLAS */
-        position: relative;
-        overflow: hidden; /* Evita que las estrellas sobresalgan de la pantalla */
-    }
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cotizador Espeon Shiny</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            /* FONDO OSCURO PARA QUE SE VEAN LAS ESTRELLAS */
+            background-color: #0b0e14; 
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Exo 2', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
 
-    /* EFECTO DE ESTRELLAS DIMINUTAS CON CSS */
-    body::after {
-        content: "";
-        position: absolute;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background-color: transparent;
-        z-index: -1; /* Coloca las estrellas detrás del cotizador */
-        
-        /* Patrón de estrellas usando sombras de caja múltiples */
-        background-image: 
-          radial-gradient(1px 1px at 20px 30px, #eee, rgba(0,0,0,0)),
-          radial-gradient(1px 1px at 40px 70px, #fff, rgba(0,0,0,0)),
-          radial-gradient(2px 2px at 150px 150px, #ddd, rgba(0,0,0,0)),
-          radial-gradient(1.5px 1.5px at 250px 50px, #fff, rgba(0,0,0,0)),
-          radial-gradient(1px 1px at 300px 300px, #eee, rgba(0,0,0,0)),
-          radial-gradient(1.5px 1.5px at 400px 100px, #fff, rgba(0,0,0,0)),
-          radial-gradient(1px 1px at 500px 400px, #eee, rgba(0,0,0,0)),
-          radial-gradient(2px 2px at 600px 200px, #fff, rgba(0,0,0,0)),
-          radial-gradient(1.5px 1.5px at 700px 350px, #ddd, rgba(0,0,0,0));
-        background-repeat: repeat;
-        background-size: 500px 500px;
-        opacity: 0.8;
-        
-        /* Animación de parpadeo */
-        animation: twinkle 5s linear infinite;
-    }
+        /* CAPA DE ESTRELLAS ANIMADAS */
+        .stars-container {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
+            z-index: -1;
+        }
 
-    /* Animación para el parpadeo de las estrellas */
-    @keyframes twinkle {
-        0%, 100% { opacity: 0.8; }
-        50% { opacity: 0.5; }
-    }
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: twinkle var(--duration) infinite ease-in-out;
+        }
 
-    /* Estilos del contenedor de la carta (se mantiene igual) */
-    .card-container {
-        position: relative;
-        width: 380px;
-        aspect-ratio: 686 / 956;
-        background-image: url('card.png'); /* Reemplaza por tu imagen de carta de Espeon */
-        background-size: cover;
-        background-position: center;
-        border-radius: 20px;
-        box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-        overflow: hidden;
-    }
+        @keyframes twinkle {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.5); opacity: 1; }
+        }
 
-    /* Estilos del widget del cotizador superpuesto (se mantiene igual) */
-    .cotizador-overlay {
-        position: absolute;
-        top: 55%; 
-        left: 50%;
-        transform: translateX(-50%);
-        width: 80%;
-        display: flex;
-        flex-direction: column;
-    }
+        /* CONTENEDOR DE LA CARTA */
+        .card-container {
+            position: relative;
+            width: 380px;
+            aspect-ratio: 686 / 956;
+            background-image: url('card.png'); /* ASEGURATE QUE TU IMAGEN SE LLAME card.png */
+            background-size: cover;
+            background-position: center;
+            border-radius: 18px;
+            box-shadow: 0 0 30px rgba(192, 160, 255, 0.3); /* Brillo lila suave */
+            z-index: 10;
+        }
 
-    .label {
-        font-size: 16px;
-        font-weight: 900;
-        color: #2c2c2c;
-        margin-bottom: 5px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
+        /* EL COTIZADOR (ZONA ROSADA) */
+        .cotizador-overlay {
+            position: absolute;
+            top: 55%; 
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            text-align: left;
+        }
 
-    .input-bubble {
-        background: rgba(255, 255, 255, 0.9);
-        border-radius: 12px;
-        padding: 10px 15px;
-        width: 100%;
-        box-sizing: border-box;
-        display: flex;
-        align-items: center;
-        margin-bottom: 20px;
-        border: 2px solid rgba(0,0,0,0.1);
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
+        .label {
+            font-size: 16px;
+            font-weight: 900;
+            color: #333;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 0px rgba(255,255,255,0.5);
+        }
 
-    .input-bubble span {
-        font-size: 22px;
-        color: #555;
-        margin-right: 8px;
-    }
+        .input-bubble {
+            background: white;
+            border-radius: 12px;
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+        }
 
-    .input-bubble input {
-        border: none;
-        background: transparent;
-        width: 100%;
-        font-size: 22px;
-        font-family: 'Exo 2', sans-serif;
-        font-weight: 700;
-        outline: none;
-        color: #000;
-    }
+        .input-bubble span { font-size: 22px; color: #888; margin-right: 10px; }
+        .input-bubble input {
+            border: none;
+            width: 100%;
+            font-size: 22px;
+            font-weight: 700;
+            outline: none;
+            font-family: 'Exo 2', sans-serif;
+        }
 
-    .result-display {
-        font-size: 34px;
-        font-weight: 900;
-        color: #111;
-        text-shadow: 1px 1px 0px rgba(255,255,255,0.4);
-    }
+        .result-display {
+            font-size: 38px;
+            font-weight: 900;
+            color: #1a1a1a;
+            letter-spacing: -1px;
+        }
 
-    /* Ocultar flechitas del input de número */
-    input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
-        -webkit-appearance: none; margin: 0;
-    }
-</style>
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+            -webkit-appearance: none; margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars-container" id="starField"></div>
+
+    <div class="card-container">
+        <div class="cotizador-overlay">
+            <div class="label">Ingrese monto USD</div>
+            <div class="input-bubble">
+                <span>$</span>
+                <input type="number" id="usdInput" placeholder="0.00">
+            </div>
+
+            <div class="label">Resultado en ARS</div>
+            <div class="result-display" id="arsResult">$ 0,00</div>
+        </div>
+    </div>
+
+    <script>
+        // Crear estrellas aleatorias
+        const starField = document.getElementById('starField');
+        const starCount = 100;
+
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random() * 3 + 'px';
+            star.style.width = size;
+            star.style.height = size;
+            star.style.top = Math.random() * 100 + '%';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+            starField.appendChild(star);
+        }
+
+        // Lógica del cotizador
+        const usdInput = document.getElementById('usdInput');
+        const arsResult = document.getElementById('arsResult');
+
+        usdInput.addEventListener('input', () => {
+            const usd = parseFloat(usdInput.value);
+            if (isNaN(usd) || usd <= 0) {
+                arsResult.innerText = "$ 0,00";
+                return;
+            }
+            const calculo = (usd + 2) * 1400;
+            arsResult.innerText = new Intl.NumberFormat('es-AR', {
+                style: 'currency',
+                currency: 'ARS',
+                minimumFractionDigits: 2
+            }).format(calculo);
+        });
+    </script>
+</body>
+</html>
