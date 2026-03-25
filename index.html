@@ -4,219 +4,141 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cotizador Espeon</title>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --card-silver: #c0c4cc;
-            --card-pink: #f8c0e8;
-            --card-pink-dark: #e895d3;
-            --text-dark: #333;
-        }
-
         body {
-            background-color: #222;
+            background-color: #1a1a1a;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            font-family: 'Exo 2', sans-serif;
+            font-family: 'Roboto', sans-serif;
         }
 
-        /* Contenedor Principal de la Carta */
-        .pokemon-card {
-            width: 380px;
-            height: 530px;
-            background: linear-gradient(135deg, #d1d5db, #9ca3af);
-            border: 12px solid var(--card-silver);
-            border-radius: 20px;
-            padding: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            display: flex;
-            flex-direction: column;
+        /* Contenedor de la carta usando tu imagen */
+        .card-container {
             position: relative;
-            box-sizing: border-box;
-        }
-
-        /* Cabecera */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 5px;
-        }
-
-        .fase { font-size: 10px; font-weight: 800; font-style: italic; }
-        .name { font-size: 24px; font-weight: 800; color: #111; flex-grow: 1; margin-left: 10px; }
-        .hp { font-size: 20px; font-weight: 800; }
-        .hp span { font-size: 12px; margin-right: 2px; }
-        .type-icon { width: 22px; height: 22px; background: #a15da1; border-radius: 50%; display: inline-block; margin-left: 5px; border: 1px solid #000; }
-
-        /* Ilustración */
-        .image-container {
-            width: 100%;
-            height: 180px;
-            background: #eee;
-            margin-top: 5px;
-            border: 4px solid #b1b1b1;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
-            background-image: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/196.png');
-            background-size: contain;
-            background-repeat: no-repeat;
+            width: 450px; /* Ajustable según prefieras */
+            aspect-ratio: 686 / 956; /* Proporción estándar de carta Pokémon */
+            background-image: url('espeon_card.jpg'); /* ASEGURATE QUE EL NOMBRE COINCIDA */
+            background-size: cover;
             background-position: center;
-            background-color: #fefefe;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
         }
 
-        .info-bar {
-            background: linear-gradient(to right, #ccc, #eee, #ccc);
-            font-size: 9px;
-            text-align: center;
-            padding: 2px;
-            border-radius: 5px;
-            margin: 5px 0;
-            font-style: italic;
-            border: 1px solid #aaa;
-        }
-
-        /* SECCIÓN DEL COTIZADOR (Zona Rosada) */
-        .cotizador-area {
-            flex-grow: 1;
-            background: radial-gradient(circle, var(--card-pink) 0%, var(--card-pink-dark) 100%);
-            border-radius: 10px;
-            padding: 20px;
+        /* Capa del Cotizador sobre la zona rosada */
+        .cotizador-overlay {
+            position: absolute;
+            top: 52%; /* Posicionado sobre el área rosada */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.1);
+            align-items: flex-start;
         }
 
+        .label {
+            font-size: 22px;
+            font-weight: 900;
+            color: #2c2c2c;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* La burbuja de ingreso de USD */
         .input-bubble {
             background: white;
-            border-radius: 50px;
-            padding: 10px 20px;
-            width: 80%;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin-bottom: 15px;
+            border-radius: 20px;
+            padding: 15px 25px;
+            width: 100%;
+            box-sizing: border-box;
+            box-shadow: 4px 4px 10px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            border: 2px solid #ddd;
+        }
+
+        .input-bubble span {
+            font-size: 28px;
+            color: #777;
+            margin-right: 10px;
         }
 
         .input-bubble input {
             border: none;
             width: 100%;
-            text-align: center;
-            font-size: 18px;
-            font-family: 'Exo 2', sans-serif;
+            font-size: 28px;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
             outline: none;
             color: #333;
         }
 
+        /* El resultado en ARS */
+        .result-container {
+            margin-top: 10px;
+        }
+
         .result-display {
-            font-size: 26px;
-            font-weight: 800;
-            color: #444;
-            text-shadow: 1px 1px 0px white;
+            font-size: 42px;
+            font-weight: 900;
+            color: #1a1a1a;
+            text-shadow: 1px 1px 0px rgba(255,255,255,0.5);
         }
 
-        .result-label {
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            font-weight: bold;
+        /* Quitar flechas del input number */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
-
-        /* Footer de la Carta */
-        .footer-stats {
-            display: flex;
-            justify-content: space-around;
-            font-size: 10px;
-            padding: 10px 0;
-            border-top: 1px solid rgba(0,0,0,0.1);
-        }
-
-        .flavor-text {
-            font-size: 9px;
-            font-style: italic;
-            text-align: right;
-            padding: 0 10px;
-            line-height: 1.1;
-        }
-
-        .set-info {
-            font-size: 8px;
-            padding: 5px 10px;
-            display: flex;
-            justify-content: space-between;
-        }
-
     </style>
 </head>
 <body>
 
-    <div class="pokemon-card">
-        <div class="header">
-            <span class="fase">FASE 1</span>
-            <span class="name">Espeon</span>
-            <div class="hp"><span>PS</span>110</div>
-            <div class="type-icon"></div>
-        </div>
-
-        <div class="image-container"></div>
-
-        <div class="info-bar">
-            N.º 0196 Pokémon Sol Altura: 0,9 m Peso: 26,5 kg
-        </div>
-
-        <div class="cotizador-area">
-            <div class="result-label">Monto en USD</div>
-            <div class="input-bubble">
-                <input type="number" id="usdInput" placeholder="0.00" step="0.01">
-            </div>
+    <div class="card-container">
+        <div class="cotizador-overlay">
             
-            <div class="result-label">Resultado en ARS</div>
+            <div class="label">Ingrese monto USD</div>
+            <div class="input-bubble">
+                <span>$</span>
+                <input type="number" id="usdInput" placeholder="0.00">
+            </div>
+
+            <div class="label">Resultado en ARS</div>
             <div class="result-display" id="arsResult">$ 0,00</div>
-        </div>
 
-        <div class="footer-stats">
-            <div>Debilidad 💧 x2</div>
-            <div>Resistencia 👊 -30</div>
-            <div>Retirada ⭐</div>
-        </div>
-
-        <div class="flavor-text">
-            Al predecir el siguiente movimiento de su rival,<br>
-            chasquea el extremo de la cola bífida que tiene.
-        </div>
-
-        <div class="set-info">
-            <div>Ilus. Cena Mitanda</div>
-            <div>G 086/197 ◆</div>
         </div>
     </div>
 
     <script>
-        const inputUsd = document.getElementById('usdInput');
-        const displayArs = document.getElementById('arsResult');
+        const usdInput = document.getElementById('usdInput');
+        const arsResult = document.getElementById('arsResult');
 
-        inputUsd.addEventListener('input', () => {
-            const usd = parseFloat(inputUsd.value);
+        usdInput.addEventListener('input', () => {
+            const usd = parseFloat(usdInput.value);
             
             if (isNaN(usd) || usd <= 0) {
-                displayArs.innerText = "$ 0,00";
+                arsResult.innerText = "$ 0,00";
                 return;
             }
 
-            // Lógica solicitada: (Monto + 2 fees) * 1400
-            const resultado = (usd + 2) * 1400;
+            // Lógica: (Monto + 2) * 1400
+            const calculo = (usd + 2) * 1400;
 
-            // Formatear a moneda local
-            displayArs.innerText = new Intl.NumberFormat('es-AR', {
+            // Formato de moneda argentina
+            arsResult.innerText = new Intl.NumberFormat('es-AR', {
                 style: 'currency',
                 currency: 'ARS',
                 minimumFractionDigits: 2
-            }).format(resultado);
+            }).format(calculo);
         });
     </script>
+
 </body>
 </html>
