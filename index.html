@@ -16,55 +16,52 @@
             font-family: 'Roboto', sans-serif;
         }
 
-        /* Contenedor de la carta usando tu imagen */
         .card-container {
             position: relative;
-            width: 450px; /* Ajustable según prefieras */
-            aspect-ratio: 686 / 956; /* Proporción estándar de carta Pokémon */
-            background-image: url('espeon_card.jpg'); /* ASEGURATE QUE EL NOMBRE COINCIDA */
+            width: 90vw;
+            max-width: 450px;
+            aspect-ratio: 686 / 956;
+            /* NOMBRE CORREGIDO AQUÍ ABAJO */
+            background-image: url('espeon_card.jpg.png'); 
             background-size: cover;
             background-position: center;
             border-radius: 25px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.5);
         }
 
-        /* Capa del Cotizador sobre la zona rosada */
         .cotizador-overlay {
             position: absolute;
-            top: 52%; /* Posicionado sobre el área rosada */
+            top: 55%; /* Ajustado para que caiga justo en la zona rosada */
             left: 50%;
             transform: translateX(-50%);
             width: 80%;
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
         }
 
         .label {
-            font-size: 22px;
+            font-size: 18px;
             font-weight: 900;
             color: #2c2c2c;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
-        /* La burbuja de ingreso de USD */
         .input-bubble {
             background: white;
-            border-radius: 20px;
-            padding: 15px 25px;
+            border-radius: 15px;
+            padding: 12px 20px;
             width: 100%;
             box-sizing: border-box;
             box-shadow: 4px 4px 10px rgba(0,0,0,0.1);
             display: flex;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             border: 2px solid #ddd;
         }
 
         .input-bubble span {
-            font-size: 28px;
+            font-size: 24px;
             color: #777;
             margin-right: 10px;
         }
@@ -72,26 +69,18 @@
         .input-bubble input {
             border: none;
             width: 100%;
-            font-size: 28px;
+            font-size: 24px;
             font-family: 'Roboto', sans-serif;
             font-weight: 700;
             outline: none;
-            color: #333;
-        }
-
-        /* El resultado en ARS */
-        .result-container {
-            margin-top: 10px;
         }
 
         .result-display {
-            font-size: 42px;
+            font-size: 38px;
             font-weight: 900;
             color: #1a1a1a;
-            text-shadow: 1px 1px 0px rgba(255,255,255,0.5);
         }
 
-        /* Quitar flechas del input number */
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
             -webkit-appearance: none;
@@ -131,7 +120,6 @@
             // Lógica: (Monto + 2) * 1400
             const calculo = (usd + 2) * 1400;
 
-            // Formato de moneda argentina
             arsResult.innerText = new Intl.NumberFormat('es-AR', {
                 style: 'currency',
                 currency: 'ARS',
